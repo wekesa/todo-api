@@ -30,12 +30,9 @@ app.get('/todos',function(req,res){
     }
 
     if (query.hasOwnProperty("q") && query.q.length > 0) {
-        where.name = {
+        where.description = {
             $like: '%' + query.q + '%'
-        },
-            where.description = {
-                $like: '%' + query.q + '%'
-            }
+        }
     }
 
     db.todo.findAll({where: where}).then(function (todos) {
@@ -51,7 +48,7 @@ app.get('/todos/:id',function(req,res){
         if (!!todo) {
             res.json(todo.toJSON());
         } else {
-            res.status(400).send();
+            res.status(404).send();
         }
     }, function (e) {
         res.status(500).send();
